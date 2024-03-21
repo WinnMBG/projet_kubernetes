@@ -25,10 +25,10 @@ jobs:
         run: docker push ${{ secrets.DOCKER_LOGIN }}/back_kube:latest
 
       - name: Install kubectl
-        run: apt-get update && snap install -y kubectl 
+        run: sudo apt-get update && sudo snap install -y kubectl 
 
       - name: Install Azure CLI
-        run: apt-get -y update && apt-get -y install azure-cli && az
+        run: sudo apt-get -y update && sudo apt-get -y install azure-cli && az
 
       - name: Connect to Azure Cloud
         run: az login --service-principal -u ${{ secrets.APPID }} -p ${{ secrets.AZ_SECRET }} --tenant ${{ secrets.TENANT_ID }} 
