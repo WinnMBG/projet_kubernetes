@@ -30,13 +30,8 @@ jobs:
       - name: Install Azure CLI
         run: sudo apt-get -y update && sudo apt-get -y install azure-cli && az
 
-      - name: 'Az CLI login'
-        uses: azure/login@v1
-        with:
-            client-id: ${{ secrets.APPID }}
-            tenant-id: ${{ secrets.TENANT_ID }} 
-            subscription-id: ${{ secrets.AZ_SECRET }} 
-
+      - name: Connect to Azure Cloud
+        run: az login --service-principal -u ${{ secrets.APPID }} -p ${{ secrets.AZ_SECRET }} --tenant ${{ secrets.TENANT_ID }} 
 
       - name: Get Azure kubernetes cluster informations
         run: az aks get-credentials --resource-group hitema_kube --name hitema
