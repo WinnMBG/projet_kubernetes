@@ -23,3 +23,19 @@ jobs:
       
       - name: Push Docker image
         run: docker push ${{ secrets.DOCKER_LOGIN }}/back_kube:latest
+
+      - name: Install kubectl
+        run: apt-get update && snap install -y kubectl 
+
+      - name: Install Azure CLI
+        run: apt-get -y update && apt-get -y install azure-cli && az
+
+      - name: Connect to Azure Cloud
+        run: az login --service-principal -u ${{ secrets.APPID }} -p ${{ secrets.AZ_SECRET }} --tenant ${{ secrets.TENANT_ID }} 
+
+      - name: Get Azure kubernetes cluster informations
+        run: az aks get-credentials --resource-group hitema_kube --name hitema
+
+      - name: Update Kubernetes cluster
+        run: kubectl apply -f simple-pod.yaml
+
