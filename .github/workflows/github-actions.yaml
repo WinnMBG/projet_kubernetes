@@ -44,9 +44,9 @@ jobs:
         run: az aks get-credentials --resource-group hitema_kube --name hitema
         
       - name: Delete previous Kubernetes cluster resources
-        run: kubectl delete -f ./back/replicas.yaml && kubectl delete -f ./back/mysql.yaml
+        run: kubectl delete -f ./back/replicas.yaml && kubectl delete -f ./back/rep-front.yaml
         continue-on-error: true
 
       - name: Update Kubernetes cluster
-        run: kubectl apply -f ./back/replicas.yaml && kubectl apply -f ./back/mysql.yaml
+        run: kubectl apply -f ./back/replicas.yaml && kubectl apply -f ./back/rep-front.yaml
 

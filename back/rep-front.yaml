@@ -1,23 +1,24 @@
 apiVersion: apps/v1
+
 kind: Deployment
 metadata:
-  name: winn-express-back
+  name: winn-express-front
 spec:
   replicas: 3
   selector:
     matchLabels:
-      app: winn-express-back
+      app: winn-express-front
   template:
     metadata:
       labels:
-        app: winn-express-back
+        app: winn-express-front
     spec:
       containers:
-      - name: winn-express-back
-        image: winnmbg/back_kube:0.3
+      - name: winn-express-front
+        image: winnmbg/front_kube:0.3
         imagePullPolicy: Always
         ports:
-        - containerPort: 3001
+        - containerPort: 3000
         resources:
           limits:
             cpu: "1"
@@ -26,17 +27,17 @@ spec:
             cpu: "100m"
             memory: "256Mi"
 
----
+
+
 apiVersion: v1
 kind: Service
 metadata:
-  name: winn-express-service
+  name: winn-express-front
 spec:
   selector:
-    app: winn-express-back
+    app: winn-express-front
   ports:
     - protocol: TCP
-      port: 801
-      targetPort: 3001
+      port: 802
+      targetPort: 3000
   type: LoadBalancer
-  loadBalancerIP: 4.225.74.169
