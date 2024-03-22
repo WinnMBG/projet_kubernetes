@@ -49,4 +49,19 @@ jobs:
 
       - name: Update Kubernetes cluster
         run: kubectl apply -f ./back/replicas.yaml && kubectl apply -f ./back/rep-front.yaml
+  create-cluster:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Setup Terraform
+      uses: hashicorp/setup-terraform@v1
+      with:
+        terraform_version: 1.1.0
 
+    - name: Initialize Terraform
+      run: terraform -chdir=./back/ init
+
+    - name: Plan Terraform changes
+      run: terraform -chdir=./back/ plan
+
+    - name: Apply Terraform changes
+      run: terraform -chdir=./back/ apply
