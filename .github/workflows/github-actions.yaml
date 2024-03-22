@@ -6,12 +6,9 @@ on:
       - main
 
 jobs:
-  build:
+  build-and-push-docker:
     runs-on: ubuntu-latest
     steps:
-      # - uses: azure/login@v2
-      #   with:
-      #     creds: ${{ secrets.AZURE_CREDENTIALS }}
           
       - name: Checkout repository
         uses: actions/checkout@v2
@@ -23,11 +20,14 @@ jobs:
           password: ${{ secrets.DOCKER_PASSWORD }}
 
       - name: Build Docker image
-        run: docker build -t ${{ secrets.DOCKER_LOGIN }}/back_kube:latest .
+        run: docker build -t ${{ secrets.DOCKER_LOGIN }}/back_kube:0.3 .
       
       - name: Push Docker image
-        run: docker push ${{ secrets.DOCKER_LOGIN }}/back_kube:latest
-
+        run: docker push ${{ secrets.DOCKER_LOGIN }}/back_kube:0.3
+  
+  push-on-azure:
+    runs-on: ubuntu-latest
+    steps:
       - name: Install kubectl
         run: sudo apt-get update && sudo snap install kubectl --classic
 
@@ -41,5 +41,5 @@ jobs:
         run: az aks get-credentials --resource-group hitema_kube --name hitema
 
       - name: Update Kubernetes cluster
-        run: kubectl apply -f replicas.yaml
+        run: kubectl apply -f replicas.yaml && kubectl apply -f mysql.yaml
 

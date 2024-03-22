@@ -1,34 +1,42 @@
 apiVersion: apps/v1
-kind: ReplicaSet
+kind: Deployment
 metadata:
-  name: express-mbouranga-app
+  name: winn-express-back
 spec:
   replicas: 3
   selector:
     matchLabels:
-      app: express
+      app: winn-express-back
   template:
     metadata:
       labels:
-        app: express
+        app: winn-express-back
     spec:
       containers:
-      - name: express-container
+      - name: winn-express-back
         image: winnmbg/back_kube:0.3
+        imagePullPolicy: Always
         ports:
         - containerPort: 3001
+        resources:
+          limits:
+            cpu: "1"
+            memory: "1Gi"
+          requests:
+            cpu: "100m"
+            memory: "256Mi"
 
 ---
 apiVersion: v1
 kind: Service
 metadata:
-  name: express-mbouranga-service
+  name: winn-express-service
 spec:
   selector:
-    app: express-mbouranga-app
+    app: winn-express-back
   ports:
     - protocol: TCP
-      port: 80
+      port: 801
       targetPort: 3001
   type: LoadBalancer
   loadBalancerIP: 4.225.74.169
