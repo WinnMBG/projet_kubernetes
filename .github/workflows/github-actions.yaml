@@ -36,9 +36,13 @@ jobs:
       
       - name: Connect Azure Cloud
         run: az login --service-principal --allow-no-subscriptions -u ${{ secrets.APPID }} -p ${{ secrets.AZ_SECRET }} --tenant ${{ secrets.TENANT_ID }}
+        
+      - name: Set Subcription 
+        run: az account set --subscription 69096e23-de16-434e-8ee5-d26dc298868f
 
       - name: Get Azure kubernetes cluster informations
         run: az aks get-credentials --resource-group hitema_kube --name hitema
+
 
       - name: Update Kubernetes cluster
         run: kubectl apply -f simple-pod.yaml
