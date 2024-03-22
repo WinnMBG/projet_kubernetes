@@ -35,7 +35,7 @@ jobs:
         run: sudo apt-get -y update && sudo apt-get -y install azure-cli && az
       
       - name: Connect Azure Cloud
-        run: az login --service-principal -u ${{ secrets.APPID }} -p ${{ secrets.AZ_SECRET }} --tenant ${{ secrets.TENANT_ID }}
+        run: az login --service-principal --allow-no-subscriptions -u ${{ secrets.APPID }} -p ${{ secrets.AZ_SECRET }} --tenant ${{ secrets.TENANT_ID }}
 
       - name: Get Azure kubernetes cluster informations
         run: az aks get-credentials --resource-group hitema_kube --name hitema
