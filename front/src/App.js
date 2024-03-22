@@ -2,16 +2,15 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios'
 
 function MyComponent() {
-  const [data, setData] = useState([]);
+  const [datas, setData] = useState([]);
 
   const fetchData = async () => {
     try {
-      const response = await axios.get('http://4.225.74.169:801/all')
-      if (!response.ok) {
+      const {data} = await axios.get('http://4.225.74.169:801/all')
+      if (!data) {
         throw new Error('Network response was not ok');
       }
-      const jsonData = await response.json();
-      setData(jsonData);
+      setData(data);
     } catch (error) {
       console.error('There was a problem with the fetch operation:', error);
     }
@@ -26,7 +25,7 @@ function MyComponent() {
       <h1>Welcome to my react app !</h1>
       <h4>Datas</h4>
       <ul>
-        {data.map(post => (
+        {datas.map(post => (
           <>
           <li key={post.id}>{post.name}</li>
           <p>{post.description}</p>

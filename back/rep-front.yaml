@@ -1,5 +1,4 @@
 apiVersion: apps/v1
-
 kind: Deployment
 metadata:
   name: winn-express-front
@@ -28,7 +27,7 @@ spec:
             memory: "256Mi"
 
 
-
+---
 apiVersion: v1
 kind: Service
 metadata:
