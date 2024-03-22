@@ -71,12 +71,12 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
-  name: winn-express-service
+  name: winn-express-front
 spec:
   selector:
     app: winn-express-front
   ports:
     - protocol: TCP
-      port: 801
+      port: 802
       targetPort: 3000
   type: LoadBalancer
