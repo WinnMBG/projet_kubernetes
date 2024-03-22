@@ -2,6 +2,17 @@ const express = require('express');
 const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
 const cors = require('cors');
+const winston = require('winston');
+
+// Configuration du logger
+const logger = winston.createLogger({
+  level: 'info',
+  format: winston.format.json(),
+  transports: [
+    new winston.transports.File({ filename: 'logs/error.log', level: 'error' }),
+    new winston.transports.File({ filename: 'logs/combined.log' }),
+  ],
+});
 
 const app = express();
 const port = 3001;
@@ -23,10 +34,15 @@ mongoose.connect(mongoURI, { useNewUrlParser: true, useUnifiedTopology: true })
 // Middleware to parse JSON bodies
 app.use(bodyParser.json());
 app.use(cors())
+app.use((req, res, next) => {
+  logger.info(`${req.method} ${req.url} - ${req.ip}`);
+  next();
+});
 
 // GET all data from the database
 app.get('/all', async (req, res) => {
   try {
+    logger.info('Hello, world!');
     const data = await Data.find();
     res.json(data);
   } catch (err) {
