@@ -15,36 +15,9 @@ spec:
     spec:
       containers:
       - name: express-container
-        image: winnmbg/back_kube:latest
+        image: winnmbg/back_kube:0.2
         ports:
         - containerPort: 3001
-      - name: mysql-container
-        image: winnmbg/back_kube:latest
-        ports:
-        - containerPort: 3001
-
-kind: Deployment
-metadata:
-  name: mysql-deployment
-spec:
-  selector:
-    matchLabels:
-      app: mysql
-  template:
-    metadata:
-      labels:
-        app: mysql
-  containers:
-  - name: mysql
-    image: mysql:5.7
-    ports:
-    - containerPort: 3306
-    env:
-    - name: MYSQL_ROOT_PASSWORD
-      value: "password"
-    volumeMounts:
-    - name: mysql-persistent-storage
-      mountPath: /var/lib/mysql
 
 kind: Service
 metadata:
@@ -58,4 +31,4 @@ spec:
       targetPort: 3001
   type: LoadBalancer
   externalIPs:
-    - "10.152.183.232"
+    - "4.225.114.230"

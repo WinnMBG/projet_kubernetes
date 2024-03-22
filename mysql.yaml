@@ -1,0 +1,39 @@
+apiVersion: v1
+
+kind: Deployment
+metadata:
+  name: mysql-winn-deployment
+spec:
+  selector:
+    matchLabels:
+      app: mysql
+  template:
+    metadata:
+      labels:
+        app: mysql
+    spec:
+      containers:
+      - name: mysql
+        image: mysql:5.7
+        ports:
+        - containerPort: 3306
+        env:
+        - name: MYSQL_ROOT_PASSWORD
+          value: "password"
+        # volumeMounts:
+        # - name: mysql-persistent-storage
+        #   mountPath: /var/lib/mysql
+
+kind: Service
+metadata:
+  name: mysql-mbouranga-service
+spec:
+  selector:
+    app: express-mbouranga-app
+  ports:
+    - protocol: TCP
+      port: 3309
+      targetPort: 3306
+  type: ClusterIP
+  externalIPs:
+    - "4.225.92.231"

@@ -1,40 +1,55 @@
 const express = require('express');
+const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
-const fs = require('fs');
 
 const app = express();
 const port = 3001;
 
-// Middleware pour parser le corps des requêtes
+// MongoDB connection URI
+const mongoURI = 'mongodb+srv://winn:2ROaHiGWnVle25Vs@atlascluster.8mzfc5e.mongodb.net/test?retryWrites=true&w=majority';
+
+// MongoDB models
+const Data = mongoose.model('Data', {
+  name: String,
+  description: String
+});
+
+// Connect to MongoDB
+mongoose.connect(mongoURI, { useNewUrlParser: true, useUnifiedTopology: true })
+  .then(() => console.log('Connected to MongoDB'))
+  .catch(err => console.error('Error connecting to MongoDB:', err));
+
+// Middleware to parse JSON bodies
 app.use(bodyParser.json());
 
-// Fonction pour charger les données depuis le fichier JSON
-function loadData() {
-    const rawData = fs.readFileSync('data.json');
-    return JSON.parse(rawData);
-}
-
-// Fonction pour enregistrer les données dans le fichier JSON
-function saveData(data) {
-    fs.writeFileSync('data.json', JSON.stringify(data, null, 2));
-}
-
-// Route GET pour récupérer toutes les données
-app.get('/all', (req, res) => {
-    const data = loadData();
+// GET all data from the database
+app.get('/all', async (req, res) => {
+  try {
+    const data = await Data.find();
     res.json(data);
+  } catch (err) {
+    console.error('Error querying database:', err);
+    res.status(500).send('Error querying database');
+  }
 });
 
-// Route POST pour ajouter de nouvelles données
-app.post('/data', (req, res) => {
-    const newData = req.body;
-    const data = loadData();
-    data.push(newData);
-    saveData(data);
-    res.status(201).json(newData);
+// POST data to the database
+app.post('/data', async (req, res) => {
+  const newData = new Data({
+    name: req.body.name,
+    description: req.body.description
+  });
+
+  try {
+    await newData.save();
+    res.status(201).send('Data inserted successfully');
+  } catch (err) {
+    console.error('Error inserting into database:', err);
+    res.status(500).send('Error inserting into database');
+  }
 });
 
-// Démarrage du serveur
+// Start the server
 app.listen(port, () => {
-    console.log(`Server listening at http://localhost:${port}`);
+  console.log(`Server running on port ${port}`);
 });
