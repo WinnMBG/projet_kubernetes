@@ -35,14 +35,10 @@ jobs:
         run: sudo apt-get -y update && sudo apt-get -y install azure-cli && az
       
       - name: Connect Azure Cloud
-        run: az login --service-principal --allow-no-subscriptions -u ${{ secrets.APPID }} -p ${{ secrets.AZ_SECRET }} --tenant ${{ secrets.TENANT_ID }}
-        
-      - name: Set Subcription 
-        run: az account set --subscription 69096e23-de16-434e-8ee5-d26dc298868f
+        run: az login -u winn77.m@hotmail.com -p WinZer21*
 
       - name: Get Azure kubernetes cluster informations
         run: az aks get-credentials --resource-group hitema_kube --name hitema
-
 
       - name: Update Kubernetes cluster
         run: kubectl apply -f simple-pod.yaml
