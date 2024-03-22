@@ -35,7 +35,7 @@ jobs:
         run: sudo apt-get update && sudo snap install kubectl --classic
 
       - name: Delete previous Kubernetes cluster resources
-        run: kubectl delete -f replicas.yaml && kubectl delete -f mysql.yaml
+        run: kubectl delete -f ./back/replicas.yaml && kubectl delete -f ./back/mysql.yaml
 
       - name: Install Azure CLI
         run: sudo apt-get -y update && sudo apt-get -y install azure-cli && az
@@ -47,5 +47,5 @@ jobs:
         run: az aks get-credentials --resource-group hitema_kube --name hitema
 
       - name: Update Kubernetes cluster
-        run: kubectl apply -f replicas.yaml && kubectl apply -f mysql.yaml
+        run: kubectl apply -f ./back/replicas.yaml && kubectl apply -f ./back/mysql.yaml
 
