@@ -20,13 +20,22 @@ jobs:
           password: ${{ secrets.DOCKER_PASSWORD }}
 
       - name: Build Docker image
-        run: docker build -t ${{ secrets.DOCKER_LOGIN }}/back_kube:0.3 .
+        run: docker build -t ${{ secrets.DOCKER_LOGIN }}/back_kube:0.3 ./back/
       
       - name: Push Docker image
         run: docker push ${{ secrets.DOCKER_LOGIN }}/back_kube:0.3
+
+      - name: Build Front Docker image
+        run: docker build -t ${{ secrets.DOCKER_LOGIN }}/front_kube:0.3 ./front/
+
+      - name: Push Front Docker image
+        run: docker push ${{ secrets.DOCKER_LOGIN }}/front_kube:0.3
   
       - name: Install kubectl
         run: sudo apt-get update && sudo snap install kubectl --classic
+
+      - name: Delete previous Kubernetes cluster resources
+        run: kubectl delete -f replicas.yaml && kubectl delete -f mysql.yaml
 
       - name: Install Azure CLI
         run: sudo apt-get -y update && sudo apt-get -y install azure-cli && az

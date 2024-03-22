@@ -1,6 +1,7 @@
 const express = require('express');
 const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
+const cors = require('cors');
 
 const app = express();
 const port = 3001;
@@ -21,6 +22,7 @@ mongoose.connect(mongoURI, { useNewUrlParser: true, useUnifiedTopology: true })
 
 // Middleware to parse JSON bodies
 app.use(bodyParser.json());
+app.use(cors())
 
 // GET all data from the database
 app.get('/all', async (req, res) => {
