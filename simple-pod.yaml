@@ -5,7 +5,7 @@ metadata:
 spec:
   containers:
   - name: backend-mbouranga-container
-    image: winnmbg/back_kube:latest
+    image: winnmbg/back_kube:0.1
     ports:
     - containerPort: 3001
 
@@ -21,3 +21,5 @@ spec:
   - protocol: TCP
     port: 3001
     targetPort: 3001
+  externalIPs:
+    - "4.225.114.230"

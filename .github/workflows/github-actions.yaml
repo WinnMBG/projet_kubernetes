@@ -22,11 +22,11 @@ jobs:
           username: ${{ secrets.DOCKER_LOGIN }}
           password: ${{ secrets.DOCKER_PASSWORD }}
 
-      - name: Build Docker image
-        run: docker build -t ${{ secrets.DOCKER_LOGIN }}/back_kube:latest .
+      # - name: Build Docker image
+      #   run: docker build -t ${{ secrets.DOCKER_LOGIN }}/back_kube:latest .
       
-      - name: Push Docker image
-        run: docker push ${{ secrets.DOCKER_LOGIN }}/back_kube:latest
+      # - name: Push Docker image
+      #   run: docker push ${{ secrets.DOCKER_LOGIN }}/back_kube:latest
 
       - name: Install kubectl
         run: sudo apt-get update && sudo snap install kubectl --classic
