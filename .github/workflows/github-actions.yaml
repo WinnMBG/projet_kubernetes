@@ -25,9 +25,6 @@ jobs:
       - name: Push Docker image
         run: docker push ${{ secrets.DOCKER_LOGIN }}/back_kube:0.3
   
-  push-on-azure:
-    runs-on: ubuntu-latest
-    steps:
       - name: Install kubectl
         run: sudo apt-get update && sudo snap install kubectl --classic
 
